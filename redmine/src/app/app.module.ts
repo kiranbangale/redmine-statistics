@@ -1,39 +1,27 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { ServiceWorkerModule } from "@angular/service-worker";
 
-import { AppComponent } from './app.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { AuthComponent } from './auth/auth.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { LoginComponent } from './auth/login/login.component';
-import { BaseComponent } from './base/base.component';
-import { HeaderComponent } from './base/header/header.component';
-import { FooterComponent } from './base/footer/footer.component';
-import { MenuComponent } from './base/menu/menu.component';
-import { DashboardComponent } from './base/dashboard/dashboard.component';
-import { AppRoutingModule } from './app-routing.module';
+import { MDBBootstrapModule } from "angular-bootstrap-md";
+import { environment } from "../environments/environment";
+
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+
+import { AuthModule } from "./auth/auth.module";
+import { BaseModule } from "./base/base.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AuthComponent,
-    RegisterComponent,
-    LoginComponent,
-    BaseComponent,
-    HeaderComponent,
-    FooterComponent,
-    MenuComponent,
-    DashboardComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
+    AppRoutingModule,
+    AuthModule,
+    BaseModule,
     MDBBootstrapModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production
-    }),
-    AppRoutingModule
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
