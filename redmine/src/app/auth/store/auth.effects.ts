@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
-import { map, switchMap, mergeMap } from 'rxjs/operators';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-import * as firebase from 'firebase';
-import * as AuthActions from './auth.actions';
-import { Router } from '@angular/router';
+import { Injectable } from "@angular/core";
+import { Effect, Actions } from "@ngrx/effects";
+import { map, switchMap, mergeMap } from "rxjs/operators";
+import { fromPromise } from "rxjs/observable/fromPromise";
+import * as firebase from "firebase";
+import * as AuthActions from "./auth.actions";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthEffects {
   @Effect()
-  authSignup = this.actions$.ofType(AuthActions.TRY_SIGNUP).pipe(
-    map((action: AuthActions.TrySignup) => {
+  authRegister = this.actions$.ofType(AuthActions.TRY_REGISTER).pipe(
+    map((action: AuthActions.TryRegister) => {
       return action.payload;
     }),
     switchMap((authData: { username: string; password: string }) => {
@@ -24,10 +24,10 @@ export class AuthEffects {
       return fromPromise(firebase.auth().currentUser.getIdToken());
     }),
     mergeMap((token: string) => {
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
       return [
         {
-          type: AuthActions.SIGNUP
+          type: AuthActions.REGISTER
         },
         {
           type: AuthActions.SET_TOKEN,
@@ -38,15 +38,15 @@ export class AuthEffects {
   );
 
   @Effect()
-  authSignin = this.actions$.ofType(AuthActions.TRY_SIGNIN).pipe(
-    map((action: AuthActions.TrySignin) => {
+  authLogin = this.actions$.ofType(AuthActions.TRY_LOGIN).pipe(
+    map((action: AuthActions.TryLogin) => {
       return action.payload;
     }),
     switchMap((authData: { username: string; password: string }) => {
       return fromPromise(
         firebase
           .auth()
-          .createUserWithEmailAndPassword(authData.username, authData.password)
+          .signInWithEmailAndPassword(authData.username, authData.password)
       );
     }),
     switchMap(() => {
@@ -55,7 +55,7 @@ export class AuthEffects {
     mergeMap((token: string) => {
       return [
         {
-          type: AuthActions.SIGNIN
+          type: AuthActions.LOGIN
         },
         {
           type: AuthActions.SET_TOKEN,

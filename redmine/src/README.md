@@ -37,3 +37,8 @@
 # Angular CLI -
 
     * ng generate module my-module --routing
+
+# Firebase -
+
+- https://firebase.google.com/docs/reference/js/firebase.auth.Auth
+- https://console.firebase.google.com/project/redmine-statistics/authentication/users
